@@ -1,0 +1,34 @@
+{
+    "mysql":
+        {
+            "dev": {
+                "host": "127.0.0.1",
+                "port":3306,
+                "user":"root",
+                "password":"dandanMIJIAN",
+                "database":"jobs",
+                "maxConnections": 55,
+                "minFreeConnections": 11
+            },
+            "test": {
+                "host": "localhost",
+                "port":3306,
+                "user":"root",
+                "password":"dandanMIJIAN",
+                "database":"jobs",
+                "maxConnections": 55,
+                "minFreeConnections": 11
+            },
+            "online": {
+                "host": "localhost",
+                "port":3306,
+                "user":"root",
+                "password":"dandanMIJIAN",
+                "database":"jobs",
+                "maxConnections": 55,
+                "minFreeConnections": 11
+            }
+        },
+    "redis": {},
+    "mongo": {}
+}
