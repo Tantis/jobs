@@ -2,7 +2,7 @@ from flask_restplus import Resource, Api
 from .. import api
 from server import db
 from flask import request
-
+from ..utils import *
 
 
 ns = api.namespace('login', description="用户登录")
@@ -12,6 +12,7 @@ class Login(Resource):
 
 
     """
+    
     def post(self):
         "密码登录"
         return True, request.json
