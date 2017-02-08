@@ -13,8 +13,8 @@ from flask import request
 from flask import Markup
 from server import db
 
-@app.route('/')
-@app.route('/index/')
+
+@app.route('/constam/')
 def home():
     """
     个人主页
@@ -53,8 +53,8 @@ def button():
     """
     return render_template('button.html')
 
-
-@app.route('/constam')
+@app.route('/')
+@app.route('/index/')
 def constam():
     """
     关系图
