@@ -1,34 +1,33 @@
 {
-    "mysql":
-        {
-            "dev": {
-                "host": "127.0.0.1",
-                "port":3306,
-                "user":"root",
-                "password":"dandanMIJIAN",
-                "database":"jobs",
-                "maxConnections": 55,
-                "minFreeConnections": 11
-            },
-            "test": {
-                "host": "localhost",
-                "port":3306,
-                "user":"root",
-                "password":"dandanMIJIAN",
-                "database":"jobs",
-                "maxConnections": 55,
-                "minFreeConnections": 11
-            },
-            "online": {
-                "host": "localhost",
-                "port":3306,
-                "user":"root",
-                "password":"dandanMIJIAN",
-                "database":"jobs",
-                "maxConnections": 55,
-                "minFreeConnections": 11
-            }
+    "mysql": {
+        "dev": {
+            "host": "liuyu.info",
+            "port": 3306,
+            "user": "liuy",
+            "password": "a123456",
+            "database": "liuy",
+            "maxConnections": 55,
+            "minFreeConnections": 11
         },
+        "test": {
+            "host": "liuyu.info",
+            "port": 3306,
+            "user": "liuy",
+            "password": "a123456",
+            "database": "liuy",
+            "maxConnections": 55,
+            "minFreeConnections": 11
+        },
+        "online": {
+            "host": "liuyu.info",
+            "port": 3306,
+            "user": "liuy",
+            "password": "a123456",
+            "database": "liuy",
+            "maxConnections": 55,
+            "minFreeConnections": 11
+        }
+    },
     "redis": {},
     "mongo": {}
 }

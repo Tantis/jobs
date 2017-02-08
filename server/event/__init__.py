@@ -8,4 +8,7 @@
 
 """
 class Event(object):
+    """
+    事件驱动模块
+    """
     pass

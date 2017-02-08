@@ -52,8 +52,46 @@ class model(dict):
         return object.__getattribute__(self, *args, **kwargs)
 
 
-if __name__ == "__main__":
+class WithOperations(object):
 
+    name = ''
+    def __init__(self, name):
+        self.name = name
+        self.value = []
+
+    def __setattr__(self, key, val):
+        if key not in ['name', 'value']:
+            try:
+                self.value.append(" `{0}` = '{1}'".format(key, "%(val)s" % {'val': val}))
+            except Exception as e:
+                raise(AttributeError)
+        else:
+            super().__setattr__(key, val)
+
+
+
+class CursorReader(object):
+
+    def __init__(self, name, primary_id='id'):
+        self.name = name
+        self.primary_id = primary_id
+
+    def _or(self):
+        pass
+
+
+class CursorWriter(object):
+    pass
+
+
+
+
+if __name__ == "__main__":
+    x = CursorReader('test')
+    z = WithOperations('wd')
+    z.index = 'aaa'
+
+    print(z.value)
     conf = model({})
     conf.host = '127.0.0.1'
     conf.user = 'root'

@@ -8,7 +8,7 @@
 
 
 """
-from server.response.code import *
+from server.response import *
 from functools import wraps
 
 
@@ -52,13 +52,13 @@ def build_final_continuation_passing(func):
 
 
 def build_restful_passing_decorator_class_by_funcs(name, methods):
-    return type(name, (object, ), 
-           {func.__name__: 
-            build_generator(build_continuation_passing(func)) 
+    return type(name, (object, ),
+           {func.__name__:
+            build_generator(build_continuation_passing(func))
             for func in methods})
 
 def build_restful_final_decorator_class_by_funcs(name, methods):
-    return type(name, (object,), 
+    return type(name, (object,),
            {func.__name__: build_generator(build_final_continuation_passing(func))
             for func in methods})
 
@@ -71,11 +71,11 @@ def wapper(f):
         avatar = {}
         for _par in params:
             avatar[_par] = params[_par]
-        
+
         def __decotors(func):
             @wraps(func)
             def __console(*args, **kwargs):
-                
+
                 ok, response = func(**kwargs)
                 for item in response:
                     if item in avatar.keys():

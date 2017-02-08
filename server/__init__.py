@@ -1,34 +1,37 @@
-from flask import Flask
-from flask import render_template
-from flask import request
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+
+# Copyright (c) 2015 yu.liu <showmove@qq.com>
+# All rights reserved
+
+"""
+test
+
+"""
+import json
+from flask import Flask, Blueprint
+from flask import url_for
 from flask_restplus import Api
 from server.modules import model
 from server.db import MySQLdb
-import json
-
-
-"""
-I READLY GOOD GOGOGO
-
-"""
 
 app = Flask(__name__)
 
-api = Api(app, version='1.0', title='Matchjobs API',
-    description='2016-11-20 jobs Starting',
-)
+blueprint = Blueprint('api', __name__, url_prefix='/api'
+                    )
+api = Api(blueprint, doc='/doc/',version='1.0', title='Sample API',
+                      description='A sample API')
+
+app.register_blueprint(blueprint)
 
 # 读取配置文件
 with open('jobs_config.json', 'r', encoding='utf8') as __conf:
     conf = json.load(__conf)
 
 configs = model(conf)
-print(configs.mysql.dev)
 
 db = MySQLdb(dict(configs.mysql.dev))
-
-
-
-
-from server import resource
 from server import index
+from server import resource
+
+
