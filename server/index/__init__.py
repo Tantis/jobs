@@ -53,6 +53,7 @@ def button():
     """
     return render_template('button.html')
 
+
 @app.route('/')
 @app.route('/index/')
 def constam():
@@ -69,10 +70,23 @@ def constam():
     for k, v in enumerate(project_data):
         v['project_content'] = Markup(v['project_content'])
         project_data[k] = v
-    work_data = db.query("SELECT * FROM `work_experience` WHERE is_hide=0 ORDER BY sort DESC ")
+    work_data = db.query(
+        "SELECT * FROM `work_experience` WHERE is_hide=0 ORDER BY sort DESC ")
     for k, v in enumerate(work_data):
         v['work_content'] = Markup(v['work_content'])
         work_data[k] = v
+
+    friends_data = db.query("SELECT * FROM work_firends WHERE is_hide=0 ")
+
+
+    skill_left_data = db.query("""
+    SELECT * FROM `work_skill` WHERE is_hide=0 AND dis_code=1
+    """)
+    skill_right_data = db.query("""
+    SELECT * FROM `work_skill` WHERE is_hide=0 AND dis_code=2
+    """)
+
+    case_data = db.query("SELECT * FROM `work_case` WHERE is_hide=0")
 
     return render_template('/body/constam.html', title="主页",
                            top_image=top_image,
@@ -80,6 +94,10 @@ def constam():
                            top_content=top_content,
                            top_link=top_link,
                            header_one=header_one,
-                           project_data = project_data,
-                           work_data=work_data
+                           project_data=project_data,
+                           work_data=work_data,
+                           friends_data=friends_data,
+                           skill_left_data=skill_left_data,
+                           skill_right_data=skill_right_data,
+                           case_data = case_data
                            )
