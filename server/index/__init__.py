@@ -13,6 +13,11 @@ from flask import request
 from flask import Markup
 from server import db
 
+import os
+import requests
+import time
+import random
+
 
 @app.route('/constam/')
 def home():
@@ -21,38 +26,21 @@ def home():
     """
     return render_template('/home/index.html')
 
-
-@app.route('/diagram')
-def details():
-    """
-
-    """
-    return render_template('diagram.html')
-
-
-@app.route('/output')
-def output():
-    """
-
-    """
-    return render_template('output.html')
-
-
-@app.route('/login')
-def login():
-    """
-
-    """
-    return render_template('login.html')
-
-
-@app.route('/button')
-def button():
-    """
-
-    """
-    return render_template('button.html')
-
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    try:
+        if request.method == 'POST':
+            f = request.files
+            files = f['file']
+            names = files.filename.split('.')[-1]
+            save_file_names = str(int(time.time())) + "_" + str(random.randint(0, 100000)) +'.'+ names
+            files.save('server/static/img/%s' % (save_file_names))
+            return {'status': 200, 'data': save_file_names, 'msg': '成功'}
+        else:
+            return {'status': 400, 'msg': '失败'}
+    except Exception as err:
+        print(err)
+        return {'status': 400, 'msg': '失败'}
 
 @app.route('/')
 @app.route('/index/')
@@ -88,7 +76,9 @@ def constam():
 
     case_data = db.query("SELECT * FROM `work_case` WHERE is_hide=0")
 
-    return render_template('/body/constam.html', title="主页",
+    work_link = db.query("SELECT * FROM `work_links` WHERE is_hide=0")
+
+    return render_template('/body/constam.html', title="liuyu的个人简历",
                            top_image=top_image,
                            top_title=top_title,
                            top_content=top_content,
@@ -99,5 +89,6 @@ def constam():
                            friends_data=friends_data,
                            skill_left_data=skill_left_data,
                            skill_right_data=skill_right_data,
-                           case_data = case_data
+                           case_data=case_data,
+                           work_link=work_link
                            )
