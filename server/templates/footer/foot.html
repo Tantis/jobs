@@ -37,6 +37,16 @@
         </div>
     </div>
 </section>
+
+
+<div class="normal-alert none">
+    <h1></h1>
+    <i class="fa fa-times"></i>
+    <div class="alert-box">
+
+    </div>
+</div>
+
 <!-- Mainly scripts -->
 <script src="static/js/jquery-2.1.1.js"></script>
 <script src="static/js/bootstrap.min.js"></script>
@@ -47,6 +57,7 @@
 <script src="static/js/inspinia.js"></script>
 <script src="static/js/plugins/pace/pace.min.js"></script>
 <script src="static/js/plugins/wow/wow.min.js"></script>
+<script src="static/js/plugins/sweetalert/sweetalert.min.js"></script>
 
 
 <script>
@@ -100,6 +111,47 @@
 
     })();
 
+    $('body').delegate('.submit-content', 'click', function() {
+
+        data = {
+            name: $('.user-name').val(),
+            mobile: $('.user-mobile').val(),
+            msg: $('.user-content').val()
+        }
+        console.log(data);
+        $.ajax({
+            url: '/api/opeartion/',
+            type: 'post',
+            dataType: 'json',
+            headers: {
+                "Content-Type": 'application/json,charset=utf-8',
+                'Accept': 'application/json'
+            },
+            data: JSON.stringify(data),
+            success: function(res) {
+                console.log('新增文章');
+                console.log(res);
+
+                if (res.status == 200) {
+                    swal({
+                        title: "提示",
+                        text: res.msg,
+                        type: "success"
+                    });
+
+                } else {
+                    swal({
+                        title: "提示",
+                        text: res.msg,
+                        type: "warning"
+                    });
+                }
+            }
+
+        });
+
+
+    });
     // Activate WOW.js plugin for animation on scrol
     new WOW().init();
 </script>
