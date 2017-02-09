@@ -75,6 +75,9 @@ def constam():
     """)
 
     case_data = db.query("SELECT * FROM `work_case` WHERE is_hide=0")
+    for k, v in enumerate(case_data):
+        v['content'] = Markup(v['content'])
+        case_data[k] = v
 
     work_link = db.query("SELECT * FROM `work_links` WHERE is_hide=0")
 
