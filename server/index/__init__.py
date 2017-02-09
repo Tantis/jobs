@@ -54,7 +54,7 @@ def constam():
     top_content = Markup(r"只有作出了正确的选择，人生的画卷才会更加美丽，人生的舞剧才会更加精彩。")
     top_link = Markup(
         r'<a class="caption-link" href="constam#" role="button"></a>')
-    project_data = db.query("SELECT * FROM `work_projects`")
+    project_data = db.query("SELECT * FROM `work_projects` WHERE is_hide=0")
     for k, v in enumerate(project_data):
         v['project_content'] = Markup(v['project_content'])
         project_data[k] = v
