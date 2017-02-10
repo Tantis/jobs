@@ -53,7 +53,7 @@ def constam():
     headers = request.headers
     # 记录访问日志
     with open('access.log', 'a') as f:
-        f.write('header: %s, ip: %s' % (repr(headers), ip))
+        f.write('header: %s, ip: %s \n' % (repr(headers), ip))
 
     header_one = r"/static/img/timg.jpg"
     top_image = r"/static/img/awsd.png"
