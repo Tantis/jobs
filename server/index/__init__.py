@@ -12,7 +12,7 @@ from flask import render_template
 from flask import request
 from flask import Markup
 from server import db
-
+from datetime import datetime
 import os
 import requests
 import time
@@ -53,7 +53,7 @@ def constam():
     headers = request.headers
     # 记录访问日志
     with open('access.log', 'a') as f:
-        f.write('header: %s, ip: %s \n' % (repr(headers), ip))
+        f.write('header: %s, datetime: %s, ip: %s \n' % (repr(headers), str(datetime.now()), ip))
 
     header_one = r"/static/img/timg.jpg"
     top_image = r"/static/img/awsd.png"
