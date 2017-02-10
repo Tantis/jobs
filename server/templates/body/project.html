@@ -5,16 +5,17 @@
             <h1>项目经验<br/> </h1>
             <p>每个项目都是我积累的经验</p>
         </div>
-    </div <div class="row">
-
-    {% for item in project_data %}
-
-    <div class="col-sm-6" style="height: 300px;">
-        <h2>{{item.project_name}}</h2>
-        <p>{{item.project_content}}</p>
-        <!--<p><a class="navy-link" href="landing.html#" role="button">详情 &raquo;</a></p>-->
     </div>
-    {% endfor %}
+    <div class="row">
+
+        {% for item in project_data %}
+
+        <div class="col-sm-6" style="height: 300px;">
+            <h2>{{item.project_name}}</h2>
+            <p>{{item.project_content}}</p>
+            <!--<p><a class="navy-link" href="landing.html#" role="button">详情 &raquo;</a></p>-->
+        </div>
+        {% endfor %}
 
     </div>
 </section>
