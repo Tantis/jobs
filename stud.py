@@ -25,7 +25,7 @@ if __name__ == "__main__":
 
         print(seek, SEEK)
         if seek == SEEK:
-            time.sleep(1)
+            time.sleep(30)
             continue
 
         url = "https://api.map.baidu.com/location/ip?ak=Ay7G6RvYQMQxBGujnpLdxb93&coor=bd09ll&ip={0}"
@@ -40,7 +40,7 @@ if __name__ == "__main__":
 
                 except Exception as err:
                     print(err)
-                    
+
         for item in pline[SEEK:]:
             # print(item.split('ip:')[1])
             r = requests.get(url.format(item.split('ip:')[1].strip()))
