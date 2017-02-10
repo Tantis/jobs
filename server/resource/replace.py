@@ -6,16 +6,18 @@ from flask import request
 
 ns = api.namespace('opeartion', description="用户留言")
 
+
 class Opeartion(Resource):
     """
     用户留言模块
 
 
     """
+
     def get(self):
         """
         查看用户留言
-        
+
         """
         return {'status': 200, 'msg': '暂不开放'}
 
@@ -24,7 +26,7 @@ class Opeartion(Resource):
         try:
             kwords = request.json
         except Exception as err:
-           
+
             return {'status': 400, 'msg': '失败，你的数据格式不对 %s' % err}
         if not kwords:
             return {'status': 400, 'msg': '失败，你的数据格式不对'}
@@ -34,7 +36,7 @@ class Opeartion(Resource):
             kwargs['mobile'] = kwords['mobile']
             kwargs['name'] = kwords['name']
         except Exception as e:
-            return  {'status': 400, 'msg': '失败，你的数据格式不对 %s ' % e}
+            return {'status': 400, 'msg': '失败，你的数据格式不对 %s ' % e}
         result = db.insert("""
         insert into 
         work_msg (mobile, name, content)
