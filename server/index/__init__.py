@@ -48,6 +48,13 @@ def constam():
     """
     关系图
     """
+
+    ip = request.remote_addr
+    headers = request.headers
+    # 记录访问日志
+    with open('access.log', 'a') as f:
+        f.write('header: %s, ip: %s' % (repr(headers), ip))
+
     header_one = r"/static/img/timg.jpg"
     top_image = r"/static/img/awsd.png"
     top_title = Markup(r"岁月不饶人，<br \> 我亦未曾饶过岁月。")
