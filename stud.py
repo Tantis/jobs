@@ -21,22 +21,32 @@ if __name__ == "__main__":
 
             pline = f.readlines()
 
-
         seek = len(pline)
 
-
+        print(seek, SEEK)
         if seek == SEEK:
-            time.sleep(30)
+            time.sleep(1)
             continue
 
         url = "https://api.map.baidu.com/location/ip?ak=Ay7G6RvYQMQxBGujnpLdxb93&coor=bd09ll&ip={0}"
         pox = []
+        if os.path.exists('addr.log'):
+            
+            with open('addr.log', 'r') as f:
+                try:
+                    pox = json.load(f)
+                except ValueError as err:
+                    print(err)
+
+                except Exception as err:
+                    print(err)
+                    
         for item in pline[SEEK:]:
             # print(item.split('ip:')[1])
             r = requests.get(url.format(item.split('ip:')[1].strip()))
             pox.append({item.split('ip:')[1].strip(): r.json()})
 
-        with open('addr.log', 'a') as f:
+        with open('addr.log', 'w') as f:
             f.write(json.dumps(pox))
 
         with open('file_status.pid', 'w') as sek:
