@@ -96,7 +96,9 @@ def constam():
         work_data[k] = v
 
     friends_data = db.query("SELECT * FROM work_firends WHERE is_hide=0 ")
-
+    for k, v in enumerate(friends_data):
+        v['content'] = Markup(v['content'])
+        friends_data[k] = v
 
     skill_left_data = db.query("""
     SELECT * FROM `work_skill` WHERE is_hide=0 AND dis_code=1
@@ -127,6 +129,11 @@ def constam():
                            work_link=work_link
                            )
 
+
+@app.route('/profile/<int:id>')
+def profile(id=1):
+    
+    return render_template('/home/profile.html')
 
 @app.route('/access/')
 def access():

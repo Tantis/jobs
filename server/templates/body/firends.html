@@ -8,42 +8,39 @@
             </div>
         </div>
         <div class="row">
-            {% for item in friends_data%} {% if item.dis_code == 2 %}
-            <div class="col-sm-4">
-                <div class="team-member wow zoomIn">
-                    <img src="{{ item.image_url }}" class="img-responsive img-circle" alt="">
-                    <h4><span class="navy">{{ item.surname }}</span> {{ item.name }}</h4>
-                    <p>{{ item.content }} </p>
-                    <!--<ul class="list-inline social-icon">
-                        <li><a href="landing.html#"><i class="fa fa-twitter"></i></a>
-                        </li>
-                        <li><a href="landing.html#"><i class="fa fa-facebook"></i></a>
-                        </li>
-                        <li><a href="landing.html#"><i class="fa fa-linkedin"></i></a>
-                        </li>
-                    </ul>-->
+
+            {% for item in friends_data%}
+
+            <div class="col-lg-4">
+                <div class="contact-box center-version">
+
+                    <a href="{{ item.link if item.link != '' else '/profile/%d' % item.id }}">
+                        <img alt="image" src="{{item.image_url}}">
+
+
+                        <h3 class="m-b-xs"><span class="navy">{{ item.surname}} </span>
+                            <strong>{{ item.name }}</strong>
+                        </h3>
+
+                        <div class="font-bold">{{ item.role }}</div>
+                        <address class="m-t-md">
+                            {{ item.content }}
+                    </address>
+                    </a>
+
+                    <div class="contact-box-footer">
+                        <div class="m-t-xs btn-group">
+                            <a class="btn btn-xs btn-white"><i class="fa fa-phone profiles-phone"></i> Call </a>
+                            <a class="btn btn-xs btn-white"><i class="fa fa-envelope profiles-eamil"></i> Email</a>
+
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
-            {% else %}
-            <div class="col-sm-4 wow fadeInLeft">
-                <div class="team-member">
-                    <img src="{{ item.image_url }}" class="img-responsive img-circle img-small" alt="">
-                    <h4><span class="navy">{{ item.surname }}</span> {{ item.name }}</h4>
-                    <p>{{ item.content }} </p>
-                    <!--<ul class="list-inline social-icon">
-                        <li><a href="landing.html#"><i class="fa fa-twitter"></i></a>
-                        </li>
-                        <li><a href="landing.html#"><i class="fa fa-facebook"></i></a>
-                        </li>
-                        <li><a href="landing.html#"><i class="fa fa-linkedin"></i></a>
-                        </li>
-                    </ul>-->
-                </div>
-            </div>
-            {% endif%} {% endfor %}
 
-
+            {% endfor %}
         </div>
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg">
