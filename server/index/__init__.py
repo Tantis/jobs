@@ -11,6 +11,7 @@ from server import app
 from flask import render_template
 from flask import request
 from flask import Markup
+from flask import jsonify
 from server import db
 from datetime import datetime
 import os
@@ -26,21 +27,44 @@ def home():
     """
     return render_template('/home/index.html')
 
-@app.route('/upload', methods=['GET', 'POST'])
+@app.route('/upload/')
 def upload():
+    """
+    文件上传
+    """
+    return render_template('/utils/upload.html')
+
+@app.route('/api/upload/', methods=['GET', 'POST'])
+def uploads():
+    """
+    文件上传
+    """
+    current_time = int(time.time())
     try:
         if request.method == 'POST':
             f = request.files
-            files = f['file']
-            names = files.filename.split('.')[-1]
-            save_file_names = str(int(time.time())) + "_" + str(random.randint(0, 100000)) +'.'+ names
-            files.save('server/static/img/%s' % (save_file_names))
-            return {'status': 200, 'data': save_file_names, 'msg': '成功'}
+            for item in f.listvalues():
+                for value in item:
+                    names = value.filename.split('.')[-1]
+                    save_file_names = str(int(time.time())) + "_" + str(random.randint(0, 100000)) +'.'+ names
+                    db.insert("""
+                    INSERT INTO `work_image`
+                                (
+                                `url`,
+                                `name`,
+                                `create_time`)
+                    VALUES (
+                            :url,
+                            :name,
+                            :create_time);
+                    """, {'create_time': current_time, 'name': value.filename.split('.')[0], 'url': '/static/img/%s' % save_file_names})
+                    value.save('server/static/img/%s' % (save_file_names))
+            return jsonify({'status': 200, 'data': save_file_names, 'msg': '成功'}), 200
         else:
-            return {'status': 400, 'msg': '失败'}
+            return jsonify({'status': 400, 'data': save_file_names, 'msg': '失败'}), 400
     except Exception as err:
         print(err)
-        return {'status': 400, 'msg': '失败'}
+        return jsonify({'status': 400, 'data': save_file_names, 'msg': '失败'}), 400
 
 @app.route('/')
 @app.route('/index/')
