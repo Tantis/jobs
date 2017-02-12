@@ -16,10 +16,16 @@ class Opeartion(Resource):
 
     def get(self):
         """
-        查看用户留言
+        随机查看一条留言
 
         """
-        return {'status': 200, 'msg': '暂不开放'}
+        try:
+            data = db.query_one(
+                "SELECT content, FROM_UNIXTIME(create_time, '%Y-%m-%d %h') as create_time FROM `work_msg` ORDER BY RAND() DESC LIMIT 0, 1")
+
+            return {'status': 200, 'msg': data}
+        except Exception as err:
+            return {'status': 400, 'msg': '失败'}
 
     def post(self):
         "用户留言模块"
@@ -46,4 +52,16 @@ class Opeartion(Resource):
             return {'status': 200, 'msg': '成功'}
         return {'status': 400, 'msg': '失败，你的数据格式不对'}
 
+class OpeartionAll(Resource):
+    def get(self):
+        "获取用户所有留言"
+        try:
+            data = db.query(
+                "SELECT content, FROM_UNIXTIME(create_time, '%Y-%m-%d %h') as create_time FROM `work_msg` ORDER BY id DESC")
+
+            return {'status': 200, 'msg': data}
+        except Exception as err:
+            return {'status': 400, 'msg': '失败'}
+
 ns.add_resource(Opeartion, '/')
+ns.add_resource(OpeartionAll, '/all/')

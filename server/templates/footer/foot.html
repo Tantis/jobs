@@ -161,6 +161,27 @@
     });
     // Activate WOW.js plugin for animation on scrol
     new WOW().init();
+
+
+    setInterval(function() {
+        //$('#message_box').fadeOut(1000);
+        $.ajax({
+            url: '/api/opeartion/',
+            type: 'get',
+            dataType: 'json',
+            success: function(res) {
+                $('#message_box').fadeOut(1000, function() {
+                    $('#message_box').html(res.msg.content);
+                    if ($('#message_box').html() == res.msg.content) {
+                        $('#message_box').slideDown(1000);
+                    }
+
+                });
+
+            }
+        });
+
+    }, 5000);
 </script>
 
 </html>
