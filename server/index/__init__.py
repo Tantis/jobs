@@ -32,7 +32,9 @@ def upload():
     """
     文件上传
     """
-    return render_template('/utils/upload.html')
+    result = db.query('SELECT * FROM `work_image`')
+
+    return render_template('/utils/upload.html', data=result)
 
 @app.route('/api/upload/', methods=['GET', 'POST'])
 def uploads():

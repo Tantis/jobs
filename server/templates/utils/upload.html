@@ -14,6 +14,7 @@
     <link href="/static/css/plugins/dropzone/basic.css" rel="stylesheet">
     <link href="/static/css/plugins/dropzone/dropzone.css" rel="stylesheet">
     <link href="/static/css/style.css" rel="stylesheet">
+    <link href="/static/css/plugins/blueimp/css/blueimp-gallery.min.css" rel="stylesheet">
 
 </head>
 
@@ -38,7 +39,23 @@
                 </div>
             </div>
         </div>
+        <div class="lightBoxGallery">
 
+            {% for item in data %}
+            <a href="http://liuyu.info/{{ item.url }}" title="{{ item.name }}" data-gallery=""><img src="http://liuyu.info/{{ item.url }}" style="width:200px; height: 200px;"></a>
+            {% endfor%}
+            <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
+            <div id="blueimp-gallery" class="blueimp-gallery">
+                <div class="slides"></div>
+                <h3 class="title"></h3>
+                <a class="prev">‹</a>
+                <a class="next">›</a>
+                <a class="close">×</a>
+                <a class="play-pause"></a>
+                <ol class="indicator"></ol>
+            </div>
+
+        </div>
     </div>
 
     <!-- Mainly scripts -->
@@ -53,6 +70,8 @@
 
     <!-- DROPZONE -->
     <script src="/static/js/plugins/dropzone/dropzone.js"></script>
+    <!-- blueimp gallery -->
+    <script src="/static/js/plugins/blueimp/jquery.blueimp-gallery.min.js"></script>
 
 
     <script>
