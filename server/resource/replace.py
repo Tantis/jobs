@@ -4,6 +4,8 @@ from server.operation.register import Register
 from server import db
 from flask import request
 
+import time
+
 ns = api.namespace('opeartion', description="用户留言")
 
 
@@ -43,10 +45,12 @@ class Opeartion(Resource):
             kwargs['name'] = kwords['name']
         except Exception as e:
             return {'status': 400, 'msg': '失败，你的数据格式不对 %s ' % e}
+        kwargs['create_time'] = int(time.time())
+
         result = db.insert("""
         insert into 
-        work_msg (mobile, name, content)
-        value (:mobile, :name, :msg)
+        work_msg (mobile, name, content, create_time)
+        value (:mobile, :name, :msg, :create_time)
         """, kwargs)
         if result:
             return {'status': 200, 'msg': '成功'}
