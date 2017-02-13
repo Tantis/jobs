@@ -12,7 +12,7 @@
     }
     
     .landing-page .navbar-default .navbar-brand {
-        color: #fff;
+        color: #669999;
         height: auto;
         display: block;
         font-size: 14px;
@@ -21,6 +21,11 @@
         border-radius: 0 0 5px 5px;
         font-weight: 700;
         transition: all 0.3s ease-in-out 0s;
+    }
+    
+    .landing-page .carousel-image {
+        position: absolute;
+        right: -150px;
     }
 </style>
 
@@ -76,7 +81,7 @@
                         </p>
                     </div>
                     <div class="carousel-image wow zoomIn">
-                        <img src="{{ item.bg_picture_img }}" alt="laptop" />
+                        <img src="{{ item.bg_picture_img }}" alt="laptop" class="img-circle" />
                     </div>
                 </div>
                 <!-- Set background for slide in css -->
