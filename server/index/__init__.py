@@ -112,6 +112,13 @@ def constam():
         v['content'] = Markup(v['content'])
         case_data[k] = v
 
+    sidebar = db.query("SELECT * FROM `work_backgroup`")
+    for k, v in enumerate(sidebar):
+        v['bg_primary_explain'] = Markup(v['bg_primary_explain'])
+        v['bg_other_explain'] = Markup(v['bg_other_explain'])
+        sidebar[k] = v
+    
+
     work_link = db.query("SELECT * FROM `work_links` WHERE is_hide=0")
 
     return render_template('/body/constam.html', title="liuyu的个人简历",
@@ -126,7 +133,8 @@ def constam():
                            skill_left_data=skill_left_data,
                            skill_right_data=skill_right_data,
                            case_data=case_data,
-                           work_link=work_link
+                           work_link=work_link,
+                           sidebar = sidebar
                            )
 
 
@@ -143,6 +151,7 @@ def access():
     if os.path.exists('addr.log'):
         with open('addr.log', 'r') as f:
             addr = json.load(f)
+    
     return render_template('/body/access.html', addr=addr)
 
 
