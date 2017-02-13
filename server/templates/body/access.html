@@ -30,7 +30,9 @@
 </head>
 
 <body>
-    {% for item in addr %} {{ item }} <br \> {% endfor %}
+    {% for item in addr %} {% for key in item.keys() %}
+    <p>{{ key }} </p>
+    {% endfor %} {{ item.values() }} {% endfor %}
 </body>
 
 </html>
