@@ -27,6 +27,7 @@ def home():
     """
     return render_template('/home/index.html')
 
+
 @app.route('/upload/')
 def upload():
     """
@@ -35,6 +36,7 @@ def upload():
     result = db.query('SELECT * FROM `work_image`')
 
     return render_template('/utils/upload.html', data=result)
+
 
 @app.route('/api/upload/', methods=['GET', 'POST'])
 def uploads():
@@ -48,7 +50,8 @@ def uploads():
             for item in f.listvalues():
                 for value in item:
                     names = value.filename.split('.')[-1]
-                    save_file_names = str(int(time.time())) + "_" + str(random.randint(0, 100000)) +'.'+ names
+                    save_file_names = str(
+                        int(time.time())) + "_" + str(random.randint(0, 100000)) + '.' + names
                     db.insert("""
                     INSERT INTO `work_image`
                                 (
@@ -68,6 +71,7 @@ def uploads():
         print(err)
         return jsonify({'status': 400, 'data': save_file_names, 'msg': '失败'}), 400
 
+
 @app.route('/')
 @app.route('/index/')
 def constam():
@@ -79,7 +83,8 @@ def constam():
     headers = request.headers
     # 记录访问日志
     with open('access.log', 'a') as f:
-        f.write('header: %s, datetime: %s, ip: %s \n' % (repr(headers), str(datetime.now()), ip))
+        f.write('header: %s, datetime: %s, ip: %s \n' %
+                (repr(headers), str(datetime.now()), ip))
 
     header_one = r"/static/img/timg.jpg"
     top_image = r"/static/img/awsd.png"
@@ -119,10 +124,12 @@ def constam():
         v['bg_primary_explain'] = Markup(v['bg_primary_explain'])
         v['bg_other_explain'] = Markup(v['bg_other_explain'])
         sidebar[k] = v
-    
+    w_img = db.query_one("SELECT url FROM work_image WHERE name='weixin' order by id desc limit 0, 1")
+
+    weixin_image = w_img.get('url')
 
     work_link = db.query("SELECT * FROM `work_links` WHERE is_hide=0")
-
+    
     return render_template('/body/constam.html', title="liuyu的个人简历",
                            top_image=top_image,
                            top_title=top_title,
@@ -136,14 +143,16 @@ def constam():
                            skill_right_data=skill_right_data,
                            case_data=case_data,
                            work_link=work_link,
-                           sidebar = sidebar
+                           sidebar=sidebar,
+                           weixin_image=weixin_image
                            )
 
 
 @app.route('/profile/<int:id>')
 def profile(id=1):
-    
+
     return render_template('/home/profile.html')
+
 
 @app.route('/access/')
 def access():
@@ -153,8 +162,5 @@ def access():
     if os.path.exists('addr.log'):
         with open('addr.log', 'r') as f:
             addr = json.load(f)
-    
+
     return render_template('/body/access.html', addr=addr)
-
-
-    

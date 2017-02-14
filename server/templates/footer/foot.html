@@ -38,7 +38,20 @@
                 <a href="{{item.link}}" class="btn"> {{ item.name }}</a> {% endfor %}
             </div>
 
+
             <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg">
+
+
+                <ul class="list-inline">
+                    <li> <a><i class="fa fa-weixin"></i></a></li>
+                    <li>
+                        <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=545689795&site=qq&menu=yes">
+                            <i class="fa fa-qq"></i></a>
+                    </li>
+                </ul>
+
+
+
                 <p><strong>&copy; 2017 liuyu.info </strong><br/> 感谢您的到来.</p>
             </div>
         </div>
@@ -65,7 +78,7 @@
 <script src="static/js/plugins/pace/pace.min.js"></script>
 <script src="static/js/plugins/wow/wow.min.js"></script>
 <script src="static/js/plugins/sweetalert/sweetalert.min.js"></script>
-
+<script src="static/js/jquery-powerfloat-min.js"></script>
 
 <script>
     $(document).ready(function() {
@@ -182,6 +195,15 @@
         });
 
     }, 5000);
+
+    $(".fa-weixin").powerFloat({
+        targetMode: "ajax",
+        target: function() {
+            return '{{ weixin_image }}';
+        },
+        hoverHold: false,
+        position: "5-7"
+    });
 </script>
 
 </html>
