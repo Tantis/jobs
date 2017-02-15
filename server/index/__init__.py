@@ -31,7 +31,7 @@ def home():
 def charts(url):
     """
     数据可视化MODEL
-    
+
     """
     if os.path.exists('server/templates/charts/' + url):
         return render_template('/charts/' + url)
@@ -76,10 +76,10 @@ def uploads():
                     value.save('server/static/img/%s' % (save_file_names))
             return jsonify({'status': 200, 'data': save_file_names, 'msg': '成功'}), 200
         else:
-            return jsonify({'status': 400, 'data': save_file_names, 'msg': '失败'}), 400
+            return jsonify({'status': 400, 'msg': '失败'}), 400
     except Exception as err:
         print(err)
-        return jsonify({'status': 400, 'data': save_file_names, 'msg': '失败'}), 400
+        return jsonify({'status': 400, 'msg': '失败'}), 400
 
 
 @app.route('/')
