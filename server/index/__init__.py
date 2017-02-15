@@ -27,6 +27,16 @@ def home():
     """
     return render_template('/home/index.html')
 
+@app.route('/charts/<string:url>')
+def charts(url):
+    """
+    数据可视化MODEL
+    
+    """
+    if os.path.exists('server/templates/charts/' + url):
+        return render_template('/charts/' + url)
+    else:
+        return render_template('/about/404.html')
 
 @app.route('/upload/')
 def upload():
