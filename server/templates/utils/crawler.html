@@ -73,10 +73,10 @@ if __name__ == "__main__":
                             </div>
                             <div class="ibox-content">
                                 <p class="m-b-lg">
-                                    <input type="input" placeholder="http://www.liuyu.info" class="form-control">
+                                    <input type="input" placeholder="http://www.liuyu.info" class="form-control text-url">
                                 </p>
                                 <p>
-                                    <button type="button" class="btn btn-w-m btn-info">开始</button>
+                                    <button id='crawler-start' type="button" class="btn btn-w-m btn-info ">开始</button>
                                 </p>
                             </div>
                         </div>
@@ -86,7 +86,7 @@ if __name__ == "__main__":
                             <div class="ibox-title">
                                 <h5>抓取结果</h5>
                             </div>
-                            <div class="ibox-content">
+                            <div class="ibox-content ">
 
                                 <!--<p class="m-b-lg">
                                     A rich programming API and a CSS theming system are available for customizing CodeMirror to fit your application, and extending it with new functionality. For mor info go to
@@ -142,9 +142,31 @@ if __name__ == "__main__":
         });
     </script>
 
-    <style>
+    <script>
+        $('#crawler-start').on('click', function() {
 
-    </style>
+            data = {
+                url: $('.text-url').val()
+            }
+            $.ajax({
+                url: '/api/crawler/',
+                type: 'get',
+                data: data,
+                dataType: 'json',
+                success: function(res) {
+                    var dom = '';
+                    if (res.status == 200) {
+                        $.each(res.data, function(k, v) {
+                            dom = dom + v;
+                        });
+                        $('#code2').text(dom);
+                    }
+                    $('#code2').text('无结果');
+
+                }
+            });
+        });
+    </script>
 
 </body>
 
