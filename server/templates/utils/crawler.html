@@ -144,6 +144,7 @@ if __name__ == "__main__":
 
     <script>
         $('#crawler-start').on('click', function() {
+            console.log('开始抓取');
 
             data = {
                 url: $('.text-url').val()
@@ -154,14 +155,16 @@ if __name__ == "__main__":
                 data: data,
                 dataType: 'json',
                 success: function(res) {
+                    console.log(res);
+
                     var dom = '';
                     if (res.status == 200) {
                         $.each(res.data, function(k, v) {
-                            dom = dom + v;
+                            dom = dom + '<pre>' + v + '</pre>';
                         });
-                        $('#code2').text(dom);
+                        $('#code2').html(dom);
                     }
-                    $('#code2').text('无结果');
+                    $('#code2').html('无结果');
 
                 }
             });
