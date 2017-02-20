@@ -22,7 +22,7 @@ class Crawlers(Resource):
             }
             result = Crawler.on_get_start()
             if result:
-                section = [i.to_text().encode('utf8', 'ignore') for i in result.execute('//div')]
+                section = [i.to_text() for i in result.execute('//div')]
                 return {'status': 200, 'msg': '成功', 'data': section}
             return {'status': 404, 'msg': '失败'}
         except Exception as err:
