@@ -207,6 +207,6 @@ if __name__ == "__main__":
         'Connection': 'keep-alive',
         'Accept-Encoding': 'gzip, deflate'
     }
-    result = Request.on_start()
+    result = Request.on_get_start()
     import ipdb
     ipdb.set_trace()

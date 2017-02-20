@@ -26,7 +26,7 @@ class Crawlers(Resource):
                 return {'status': 200, 'msg': '成功', 'data': section}
             return {'status': 404, 'msg': '失败'}
         except Exception as err:
-            return {'status': 404, 'msg': '失败'}
+            return {'status': 404, 'msg': '失败, %s ' % err}
         
 
 ns.add_resource(Crawlers, '/')
