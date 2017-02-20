@@ -81,8 +81,8 @@ class XPath(object):
                     else XPath(tostring(x))
                     for x in self._parser_content.xpath(*arg, **kwargs)]
 
-        except XPathError, err:
-            print err
+        except XPathError as err:
+            print(err)
             return None
 
     def to_html(self):

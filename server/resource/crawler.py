@@ -2,11 +2,11 @@ from flask_restplus import Resource, Api
 from .. import api
 from server.operation.register import Register
 from server.modules.utils import Request as Crawler
-
+from flask import request
 ns = api.namespace('crawler', description="数据抓取")
 
 
-class Crawler(Resource):
+class Crawlers(Resource):
     
     def get(self):
         try:
@@ -21,12 +21,12 @@ class Crawler(Resource):
                 'Accept-Encoding': 'gzip, deflate'
             }
             result = Crawler.on_get_start()
-            section = [i.to_text().replace('\n', '') for i in result.execute('\\div')]
-            return {'status': 200, 'msg': '成功', 'data': section}
-            
+            if result:
+                section = [i.to_text().replace('\n', '') for i in result.execute('\\div')]
+                return {'status': 200, 'msg': '成功', 'data': section}
+            return {'status': 404, 'msg': '失败'}
         except Exception as err:
             return {'status': 404, 'msg': '失败'}
         
-        
 
-
+ns.add_resource(Crawlers, '/')
