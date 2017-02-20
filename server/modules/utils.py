@@ -18,12 +18,9 @@ import lxml.html as HTML
 from lxml.html import HtmlElement
 from lxml.etree import XPathError, tostring
 import requests
-try:
-    import HTMLParser
-except:
-    from html.parser import HTMLParser
+from html.parser import HTMLParser
 
-HTML_PARSER = HTMLParser.HTMLParser()
+HTML_PARSER = HTMLParser()
 
 Cleaner.safe_attrs_only = False
 Cleaner.safe_attrs = False
