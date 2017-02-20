@@ -77,7 +77,7 @@ class XPath(object):
         """
         try:
             return [unicode(x).strip()
-                    if isinstance(x, basestring)
+                    if isinstance(x, str)
                     else XPath(tostring(x))
                     for x in self._parser_content.xpath(*arg, **kwargs)]
 
