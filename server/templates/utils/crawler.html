@@ -14,6 +14,7 @@
     <link href="/static/css/plugins/codemirror/codemirror.css" rel="stylesheet">
     <link href="/static/css/plugins/codemirror/ambiance.css" rel="stylesheet">
     <link href="/static/css/style.css" rel="stylesheet">
+    <link href="/static/css/plugins/toastr/toastr.min.css" rel="stylesheet">
 
 </head>
 
@@ -92,9 +93,9 @@ if __name__ == "__main__":
                                     A rich programming API and a CSS theming system are available for customizing CodeMirror to fit your application, and extending it with new functionality. For mor info go to
                                     <a href="http://codemirror.net/" target="_blank">http://codemirror.net/</a>
                                 </p>-->
-                                <textarea id="code2">
-    
-</textarea>
+                                <ul class="sortable-list connectList agile-list" id="completed">
+
+                                </ul>
                             </div>
 
                         </div>
@@ -156,15 +157,27 @@ if __name__ == "__main__":
                 dataType: 'json',
                 success: function(res) {
                     console.log(res);
+                    /*<li class="info-element" id="task16">
+                            Sometimes by accident, sometimes on purpose (injected humour and the like).
+                            <div class="agile-detail">
+                                <a href="agile_board.html#" class="pull-right btn btn-xs btn-white">Mark</a>
+                                <i class="fa fa-clock-o"></i> 16.11.2015
+                            </div>
+                        </li>
 
+                    */
                     var dom = '';
                     if (res.status == 200) {
                         $.each(res.data, function(k, v) {
-                            dom = dom + '<pre>' + v + '</pre>';
+                            // dom = dom + '<pre>' + v + '</pre>';
+                            dom = dom + '<li class="info-element" id="task' + k + '">' +
+                                v +
+                                '<div class="agile-detail"></div></li>';
+
                         });
-                        $('#code2').html(dom);
+                        $('#completed').html(dom);
                     } else {
-                        $('#code2').html('无结果');
+                        $('#completed').html('无结果');
                     }
 
                 }
