@@ -174,3 +174,8 @@ def access():
             addr = json.load(f)
 
     return render_template('/body/access.html', addr=addr)
+
+@app.route('/crawler/')
+def crawler():
+
+    return render_template('/utils/crawler.html')

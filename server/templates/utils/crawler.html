@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>INSPINIA | Code mirror</title>
+
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="/static/css/animate.css" rel="stylesheet">
+    <link href="/static/css/plugins/codemirror/codemirror.css" rel="stylesheet">
+    <link href="/static/css/plugins/codemirror/ambiance.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+
+
+        <div class="gray-bg" style="height: 1024px;">
+
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>数据爬虫案列</h2>
+
+                </div>
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+            <div class="wrapper wrapper-content  animated fadeInRight">
+                <div class="row">
+                    <div class="col-lg-6" style="height: 600px;">
+                        <div class="ibox">
+                            <div class="ibox-title">
+                                <h5>代码示例</h5>
+                            </div>
+                            <div class="ibox-content">
+
+                                <!--<p class="m-b-lg">
+                                    <strong>CodeMirror</strong> is a versatile text editor implemented in JavaScript for the browser. It is specialized for editing code, and comes with a number of language modes and addons that implement more advanced
+                                    editing functionality.
+                                </p>-->
+
+                                <textarea id="code1">
+if __name__ == "__main__":
+    Request.CUR_URL = "http://liuyu.info"
+    Request.HEADERS = {
+        'Accept': 'text/html,application/xhtml+xml,' \
+        'application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'zh_CN',
+        'User-Agent': 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)',
+        'Connection': 'keep-alive',
+        'Accept-Encoding': 'gzip, deflate'
+    }
+    result = Request.on_start()
+    # return xpath
+    # [i.to_text() for i in result.execute('\\div')] 此方法能获取所有DIV的内容
+                                    </textarea>
+
+
+
+
+                            </div>
+                            <div class="ibox-title">
+                                <h5>请输入你想要抓取的网页</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <p class="m-b-lg">
+                                    <input type="input" placeholder="http://www.liuyu.info" class="form-control">
+                                </p>
+                                <p>
+                                    <button type="button" class="btn btn-w-m btn-info">开始</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="ibox ">
+                            <div class="ibox-title">
+                                <h5>抓取结果</h5>
+                            </div>
+                            <div class="ibox-content">
+
+                                <!--<p class="m-b-lg">
+                                    A rich programming API and a CSS theming system are available for customizing CodeMirror to fit your application, and extending it with new functionality. For mor info go to
+                                    <a href="http://codemirror.net/" target="_blank">http://codemirror.net/</a>
+                                </p>-->
+                                <textarea id="code2">
+    
+</textarea>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+    <!-- Mainly scripts -->
+    <script src="/static/js/jquery-2.1.1.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- CodeMirror -->
+    <script src="/static/js/plugins/codemirror/codemirror.js"></script>
+    <script src="/static/js/plugins/codemirror/mode/javascript/javascript.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="/static/js/inspinia.js"></script>
+    <script src="/static/js/plugins/pace/pace.min.js"></script>
+
+
+    <script>
+        $(document).ready(function() {
+
+            var editor_one = CodeMirror.fromTextArea(document.getElementById("code1"), {
+                lineNumbers: true,
+                matchBrackets: true,
+                styleActiveLine: true,
+                theme: "ambiance"
+            });
+
+            var editor_two = CodeMirror.fromTextArea(document.getElementById("code2"), {
+                lineNumbers: true,
+                matchBrackets: true,
+                styleActiveLine: true
+            });
+
+        });
+    </script>
+
+    <style>
+
+    </style>
+
+</body>
+
+</html>
