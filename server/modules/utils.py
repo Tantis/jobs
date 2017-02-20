@@ -19,6 +19,7 @@ from lxml.html import HtmlElement
 from lxml.etree import XPathError, tostring
 import requests
 from html.parser import HTMLParser
+import html
 
 HTML_PARSER = HTMLParser()
 
@@ -76,7 +77,7 @@ class XPath(object):
                 * ``//div[@class='test']`` 返回一个 XPath 列表。
         """
         try:
-            return [unicode(x).strip()
+            return [x.strip()
                     if isinstance(x, str)
                     else XPath(tostring(x))
                     for x in self._parser_content.xpath(*arg, **kwargs)]
@@ -87,13 +88,13 @@ class XPath(object):
 
     def to_html(self):
         """返回html文本。"""
-        return HTML_PARSER.unescape(tostring(self._parser_content, pretty_print=True))
+        return html.unescape(tostring(self._parser_content, pretty_print=True).decode('utf8', 'ignore'))
 
         # return HTML.tostring(self._parser_content)
 
     def to_text(self):
         """返回本节点文本内容,不包含子节点。"""
-        return unicode(self._parser_content.text_content())
+        return self._parser_content.text_content()
 
 
 class Http:
