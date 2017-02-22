@@ -81,6 +81,7 @@ class XPath(object):
                     if isinstance(x, str)
                     else XPath(tostring(x))
                     for x in self._parser_content.xpath(*arg, **kwargs)]
+            # return self._parser_content.xpath(*arg, **kwargs)
 
         except XPathError as err:
             print(err)
