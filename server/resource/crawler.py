@@ -20,7 +20,7 @@ class Crawlers(Resource):
                 'Connection': 'keep-alive',
                 'Accept-Encoding': 'gzip, deflate'
             }
-            result = Crawler.on_get_start()
+            result, response = Crawler.on_get_start()
             if result:
                 section = [i.to_text().replace('\n', '')
                            for i in result.execute('//div')]

@@ -118,7 +118,7 @@ class Http:
             url, headers, data = cls(func)
             r = requests.get(url, headers=headers, params=data)
             if r.status_code == 200:
-                return XPath(r.text)
+                return XPath(r.text), r
             return
         return decoter
 
@@ -128,14 +128,21 @@ class Http:
 
         """
 
-        def decoter(*args, **kwarg):
+        def decoter(func, *args, **kwarg):
             """装饰详情
 
             """
-            url, hedaers, data = cls(func)
-            r = requests.post(url, headers=headers, json=data)
+            url, headers, data = cls(func)
+            if kwarg.get('datatype') == 'json':
+                r = requests.post(url, headers=headers, json=data)
+            elif kwarg.get('datatype') == 'data':
+                print('请求DATA： %s' % data)
+                r = requests.post(url, headers=headers, data=data)
+            else:
+                print('请求JSON： %s' % data)
+                r = requests.post(url, headers=headers, json=data)
             if r.status_code == 200:
-                return XPath(r.text)
+                return XPath(r.text), r
             return
         return decoter
 
@@ -145,14 +152,14 @@ class Http:
 
         """
 
-        def decoter(*args, **kwarg):
+        def decoter(func, *args, **kwarg):
             """装饰详情
 
             """
-            url, hedaers, data = cls()
+            url, headers, data = cls()
             r = requests.put(url, headers=headers, data=data)
             if r.status_code == 200:
-                return XPath(r.text)
+                return XPath(r.text), r
             return
         return decoter
 
@@ -178,37 +185,51 @@ class Request(object):
     # 设置超时时间
     TIMEOUT = 30
 
+    DATA = {}
     
 
     @classmethod
     @Http.get
     def on_get_start(self, *args, **kwarg):
 
-        return self.CUR_URL, self.HEADERS, {}
+        return self.CUR_URL, self.HEADERS, self.DATA
 
     @classmethod
     @Http.post
     def on_post_start(self, *args, **kwarg):
 
-        return self.CUR_URL, self.HEADERS, {}
+        return self.CUR_URL, self.HEADERS, self.DATA
 
     @classmethod
     @Http.put
     def on_put_start(self, *args, **kwarg):
 
-        return self.CUR_URL, self.HEADERS, {}
+        return self.CUR_URL, self.HEADERS, self.DATA
 
 if __name__ == "__main__":
 
-    Request.CUR_URL = "http://liuyu.info"
+   
+
+    Request.CUR_URL = "https://account.chsi.com.cn/passport/login;jsessionid={0}?service=https://my.chsi.com.cn/archive/j_spring_cas_security_check".format('FC830AF24FA6946184316898D1395291')
     Request.HEADERS = {
         'Accept': 'text/html,application/xhtml+xml,' \
         'application/xml;q=0.9,*/*;q=0.8',
         'Accept-Language': 'zh_CN',
         'User-Agent': 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)',
         'Connection': 'keep-alive',
-        'Accept-Encoding': 'gzip, deflate'
+        'Accept-Encoding': 'gzip, deflate',
+        'Content-Type': 'text/html;charset=UTF-8'
     }
-    result = Request.on_get_start()
+    result, response = Request.on_get_start()
+    Request.DATA = dict(
+    lt = result.execute('//input[@name="lt"]')[0]._parser_content.get('value'),
+    _eventId = 'submit',
+    submit   = '登  录',
+    username = '13710885997',
+    password = 'a123456'
+    )
+    Request.CUR_URL = "https://account.chsi.com.cn/passport/login;jsessionid={0}?service=https://my.chsi.com.cn/archive/j_spring_cas_security_check".format(response.cookies.get('JSESSIONID'))
+    result, response = Request.on_post_start(datatype='json')
+    # https://my.chsi.com.cn/archive/gdjy/xj/show.action
     import ipdb
     ipdb.set_trace()
