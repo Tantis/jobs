@@ -29,5 +29,39 @@
         }
     },
     "redis": {},
-    "mongo": {}
+    "mongo": {},
+    "logger": {
+        "version": 1,
+        "formatters": {
+            "format_def": {
+                "format": "%(levelname)-8s %(asctime)s %(name)s %(ip)s %(method)s %(path)s %(message)s"
+            }
+        },
+        "handlers": {
+            "handler_http": {
+                "class": "logging.handlers.HTTPHandler",
+                "formatter": "format_def",
+                "level": "INFO",
+                "host": "192.168.10.169:84",
+                "url": "/api/logger/",
+                "method": "POST"
+            }
+        },
+        "loggers": {
+            "jobs": {
+                "level": "INFO",
+                "propagate": 0,
+                "handlers": [
+                    "handler_http"
+                ]
+            },
+            "api": {
+                "level": "INFO",
+                "propagate": 0,
+                "handlers": [
+                    "handler_http"
+                ]
+            }
+        }
+    }
 }

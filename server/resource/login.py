@@ -5,7 +5,7 @@ from flask import request
 from ..utils import *
 
 
-ns = api.namespace('login', description="用户登录")
+
 
 class Login(Resource):
     """用户登录模块
@@ -27,5 +27,5 @@ class Login(Resource):
 
         return {}
 
-
+ns = api.namespace('login', description="用户登录")
 ns.add_resource(Login, '/')

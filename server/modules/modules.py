@@ -14,25 +14,48 @@ class model(dict):
     test
     ```
     """
+
     def __init__(self, *args, **kwarg):
-        super().__init__(*args, **kwarg)
+        
+        try:
+            super().__init__(*args, **kwarg)
+        except Exception as err:
+            import ipdb
+            ipdb.set_trace()
+
         for __attrbute in self.keys():
             setattr(self, __attrbute, self[__attrbute])
 
+    def __values_to_model(self, value):
+
+        if isinstance(value, (list, tuple, set)):
+            _aval = []
+            for _val in value:
+                if isinstance(_val, dict):
+                    _val = model(_val)
+                elif isinstance(_val, (list, tuple, set)):
+                    _val = self.__values_to_model(_val)
+                _aval.append(_val)
+            
+            _aval = value.__class__(_aval)
+            return _aval
+
+        elif isinstance(value, dict):
+            value = model(value)
+
+        return value
+
     def __setattr__(self, key, value):
+        
         try:
+            
             if not hasattr(self, key):
                 self[key] = value
-                if isinstance(value, dict):
-                    value = model(value)
-                elif isinstance(value, list):
-                    value = [model(i) for i in value]
-                elif isinstance(value, tuple):
-                    value = tuple([model[i] for i in value])
-                else:
-                    pass
+                value = self.__values_to_model(value)
         except Exception as e:
+            print(type(key), value)
             raise(e)
+            
 
         super().__setattr__(key, value)
 
@@ -55,6 +78,7 @@ class model(dict):
 class WithOperations(object):
 
     name = ''
+
     def __init__(self, name):
         self.name = name
         self.value = []
@@ -62,12 +86,12 @@ class WithOperations(object):
     def __setattr__(self, key, val):
         if key not in ['name', 'value']:
             try:
-                self.value.append(" `{0}` = '{1}'".format(key, "%(val)s" % {'val': val}))
+                self.value.append(" `{0}` = '{1}'".format(
+                    key, "%(val)s" % {'val': val}))
             except Exception as e:
                 raise(AttributeError)
         else:
             super().__setattr__(key, val)
-
 
 
 class CursorReader(object):
@@ -84,39 +108,8 @@ class CursorWriter(object):
     pass
 
 
-
-
 if __name__ == "__main__":
-    x = CursorReader('test')
-    z = WithOperations('wd')
-    z.index = 'aaa'
-
-    print(z.value)
-    conf = model({})
-    conf.host = '127.0.0.1'
-    conf.user = 'root'
-    conf.password = 'dandanMIJIAN'
-    conf.charset = 'utf8mb4'
-    conf.db = 'wen10_cn'
-    conf.cursorclass = cursors.DictCursor
-    #conf.array = [{'dd': {'cc': {'ee': {'xx' : 'test'}}}}, {'a': 'b'}]
-    #conf.word = {'aa': 'bb'}
-    #conf.zz = [{'zz': 'xxx'}, {'uu': 'ww'}]
-    #last_out_print(**conf)
-    #import ipdb
-    #ipdb.set_trace()
-    #connection = connect(host=conf.host, user=conf.user, password=conf.password,
-    #                      charset=conf.charset, db=conf.db,
-    #                      cursorclass=conf.cursorclass)
-    connection = connect(**conf)
-    #with connection.cursor() as cursor:
-    #    sql = "SELECT * FROM `base_food` limit 0, 100
-    #    cursor.execute(sql)
-    #    result = cursor.fetchall()#
-    #    print(result)
-    p = Connection(**conf)
-    result = p.query_one('SELECT * FROM base_food')
-    #result.id
-    print(result.parentid)
-    print(result.image)
-    print(result.listorder)
+    dicts = {'zz': {'weq': (1, {'a': 'b'}, ({'a': 'b'}, 2,2,2), 4)}, 'mysql': {'online': {'minFreeConnections': (11, 23, [2, 3, (1, 2, 3, {"1": 2}), 5]), 'maxConnections': 55, 'database': 'liuy', 'port': 3306, 'host': 'liuyu.info', 'user': 'liuy', 'password': 'a123456'}, 'dev': {'minFreeConnections': 11, 'maxConnections': 55, 'database': 'liuy', 'port': 3306, 'host': 'liuyu.info', 'user': 'liuy', 'password': 'a123456'}, 'test': {'minFreeConnections': 11, 'maxConnections': 55, 'database': 'liuy', 'port': 3306, 'host': 'liuyu.info', 'user': 'liuy', 'password': 'a123456'}}, 'logger': {
+        'handlers': {'handler_http': {'url': '/logger/', 'level': 'INFO', 'host': '192.168.10.169:84', 'method': 'POST', 'formatter': 'format_def', 'class': 'logging.handlers.HTTPHandler'}}, 'version': 1, 'loggers': {'api': {'handlers': ['handler_http'], 'level': 'INFO', 'propagate': 0}, 'jobs': {'handlers': ['handler_http'], 'level': 'INFO', 'propagate': 0}}, 'formatters': {'format_def': {'format': '%(levelname)-8s %(asctime)s %(name)s %(ip)s %(method)s %(path)s %(message)s'}}}, 'redis': {}, 'mongo': {}}
+    z = model(dicts)
+    print(z.zz.weq[2][0])
