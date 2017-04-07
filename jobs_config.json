@@ -42,7 +42,7 @@
                 "class": "logging.handlers.HTTPHandler",
                 "formatter": "format_def",
                 "level": "INFO",
-                "host": "192.168.10.169:84",
+                "host": "liuyu.info",
                 "url": "/api/logger/",
                 "method": "POST"
             }
