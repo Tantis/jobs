@@ -9,6 +9,11 @@ test
 
 """
 import json
+import logging
+import logging.config
+import logging.handlers
+
+
 from flask import Flask, Blueprint
 from flask import url_for
 from flask_restplus import Api
@@ -17,10 +22,10 @@ from server.db import MySQLdb
 
 app = Flask(__name__)
 
-blueprint = Blueprint('api', __name__, url_prefix='/api'
-                    )
-api = Api(blueprint, doc='/doc/',version='1.0', title='Sample API',
-                      description='A sample API')
+blueprint = Blueprint('api', __name__, url_prefix='/api')
+
+api = Api(blueprint, doc='/doc/', version='1.0', title='Sample API',
+          description='A sample API')
 
 app.register_blueprint(blueprint)
 
@@ -31,7 +36,18 @@ with open('jobs_config.json', 'r', encoding='utf8') as __conf:
 configs = model(conf)
 
 db = MySQLdb(dict(configs.mysql.dev))
+
+
+def __logger():
+    logging.config.dictConfig(configs.logger)
+    console = logging.StreamHandler()
+    console.setLevel(logging.INFO)
+    logger = logging.getLogger("jobs")
+    logger.addHandler(console)
+    return logger
+
+logger = __logger()
+
+
 from server import index
 from server import resource
-
-

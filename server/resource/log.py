@@ -19,7 +19,6 @@ from server import db
 from .. import api
 
 
-
 class LoggerServer(Resource):
     """日志服务器
     :POST : 存储日志信息
@@ -32,17 +31,41 @@ class LoggerServer(Resource):
         """
         try:
             level = request.form['levelname']
-            msg   = request.form['msg']
+            msg = request.form['msg']
             funcname = request.form['funcName']
             funcmode = request.form['module']
             funcproc = request.form['process']
             filepath = request.form['pathname']
             logsname = request.form['name']
-            
+
             db.insert(
-                """INSERT INTO logger (`content`, `create_time`)
-                VALUES (:content, :create_time)
-                """, {"content": "LEVEL : %s, msg: %s, filepath: %s" % (level, msg, filepath) , "create_time": int(time.time())}
+                """INSERT INTO  `logger`
+                                (
+                                `level`,
+                                `modules`,
+                                `name`,
+                                `filepath`,
+                                `content`,
+                                `other`,
+                                `create_time`
+                                )
+                    VALUES (
+                            :level,
+                            :modules,
+                            :name,
+                            :filepath,
+                            :content,
+                            :other,
+                            :create_time);
+                """, {
+                    "content": msg,
+                    "level": level,
+                    "modules": funcmode,
+                    "name": logsname,
+                    "filepath": filepath,
+                    "other": "func: %s, proc: %s" % (funcname, funcproc),
+                    "create_time": int(time.time())
+                }
             )
             return {
                 "status": 200,
@@ -51,5 +74,9 @@ class LoggerServer(Resource):
         except Exception as err:
             print(err)
             return {"status": 400, "msg": "失败"}, 400
-ns = api.namespace('logger', description="日志服务")
+
+# 创建
+ns = api.namespace('logger', 
+                    description="日志服务")
+
 ns.add_resource(LoggerServer, '/')

@@ -7,17 +7,15 @@
 """网页驱动模块
 
 """
-from server import app
-from flask import render_template
-from flask import request
-from flask import Markup
-from flask import jsonify
-from server import db
-from datetime import datetime
 import os
-import requests
-import time
 import random
+import time
+from datetime import datetime
+
+import requests
+from flask import Markup, jsonify, render_template, request
+
+from server import app, db, logger
 
 
 @app.route('/constam/')
@@ -26,6 +24,7 @@ def home():
     个人主页
     """
     return render_template('/home/index.html')
+
 
 @app.route('/charts/<string:url>')
 def charts(url):
@@ -37,6 +36,7 @@ def charts(url):
         return render_template('/charts/' + url)
     else:
         return render_template('/about/404.html')
+
 
 @app.route('/upload/')
 def upload():
@@ -91,9 +91,13 @@ def constam():
 
     ip = request.remote_addr
     headers = request.headers
-    # 记录访问日志
-    with open('access.log', 'a') as f:
-        f.write('header: %s, datetime: %s, ip: %s \n' %
+    # # 记录访问日志
+    # with open('access.log', 'a') as f:
+    #     f.write('header: %s, datetime: %s, ip: %s \n' %
+    #             (repr(headers), str(datetime.now()), ip))
+
+    # 记录访问
+    logger.info('header: %s\ndatetime: %s\nip: %s \n' %
                 (repr(headers), str(datetime.now()), ip))
 
     header_one = r"/static/img/timg.jpg"
@@ -102,7 +106,8 @@ def constam():
     top_content = Markup(r"只有作出了正确的选择，人生的画卷才会更加美丽，人生的舞剧才会更加精彩。")
     top_link = Markup(
         r'<a class="caption-link" href="constam#" role="button"></a>')
-    project_data = db.query("SELECT * FROM `work_projects` WHERE is_hide=0 order by id desc")
+    project_data = db.query(
+        "SELECT * FROM `work_projects` WHERE is_hide=0 order by id desc")
     for k, v in enumerate(project_data):
         v['project_content'] = Markup(v['project_content'])
         project_data[k] = v
@@ -134,12 +139,13 @@ def constam():
         v['bg_primary_explain'] = Markup(v['bg_primary_explain'])
         v['bg_other_explain'] = Markup(v['bg_other_explain'])
         sidebar[k] = v
-    w_img = db.query_one("SELECT url FROM work_image WHERE name='weixin' order by id desc limit 0, 1")
+    w_img = db.query_one(
+        "SELECT url FROM work_image WHERE name='weixin' order by id desc limit 0, 1")
 
     weixin_image = w_img.get('url')
 
     work_link = db.query("SELECT * FROM `work_links` WHERE is_hide=0")
-    
+
     return render_template('/body/constam.html', title="liuyu的个人简历",
                            top_image=top_image,
                            top_title=top_title,
@@ -174,6 +180,7 @@ def access():
             addr = json.load(f)
 
     return render_template('/body/access.html', addr=addr)
+
 
 @app.route('/crawler/')
 def crawler():
