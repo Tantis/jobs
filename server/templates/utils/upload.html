@@ -42,7 +42,7 @@
         <div class="lightBoxGallery">
 
             {% for item in data %}
-            <a href="http://web.liuyu.info/{{ item.url }}" title="{{ item.name }}" data-gallery=""><img src="http://liuyu.info/{{ item.url }}" style="width:200px; height: 200px;"></a>
+            <a href="http://web.liuyu.info/{{ item.url }}" title="{{ item.name }}" data-gallery=""><img src="http://web.liuyu.info/{{ item.url }}" style="width:200px; height: 200px;"></a>
             {% endfor%}
             <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
             <div id="blueimp-gallery" class="blueimp-gallery">
