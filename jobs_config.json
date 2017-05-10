@@ -28,8 +28,14 @@
             "minFreeConnections": 11
         }
     },
-    "redis": {},
-    "mongo": {},
+    "redis": {
+        "host": "liuyu.info",
+        "port": 6379
+    },
+    "mongo": {
+        "host": "liuyu.info",
+        "port": 27017
+    },
     "logger": {
         "version": 1,
         "formatters": {
@@ -42,7 +48,7 @@
                 "class": "logging.handlers.HTTPHandler",
                 "formatter": "format_def",
                 "level": "INFO",
-                "host": "liuyu.info",
+                "host": "web.liuyu.info",
                 "url": "/api/logger/",
                 "method": "POST"
             }
@@ -64,4 +70,5 @@
             }
         }
     }
+
 }
