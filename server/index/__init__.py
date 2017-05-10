@@ -89,7 +89,8 @@ def constam():
     关系图
     """
 
-    ip = request.remote_addr
+    ip = request.headers.get("X-Real-Ip", None) or request.remote_addr
+
     headers = request.headers
     # # 记录访问日志
     # with open('access.log', 'a') as f:
