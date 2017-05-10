@@ -24,6 +24,17 @@ class LoggerServer(Resource):
     :POST : 存储日志信息
     :GET  : 获取日志信息
     """
+    def get(self):
+        """程序日志查看, 只看最新10条 
+
+        """
+        try:
+            result = db.query("SELECT `level`, content, FROM_UNIXTIME(create_time, '%Y-%m-%d %h') AS log_time FROM logger ORDER BY create_time DESC LIMIT 0, 10")
+
+            return {"status": 200, "data": result, "msg": "成功"}
+        except Exception as err:
+            return {"status": 400, "msg": "失败"}, 400            
+
 
     def post(self):
         """存储日志信息

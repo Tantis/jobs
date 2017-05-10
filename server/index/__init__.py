@@ -170,6 +170,12 @@ def profile(id=1):
     return render_template('/home/profile.html')
 
 
+@app.route('/message/')
+def message():
+    
+    return render_template('/utils/message.html')
+
+
 @app.route('/access/')
 def access():
     import json
@@ -186,3 +192,9 @@ def access():
 def crawler():
 
     return render_template('/utils/crawler.html')
+
+
+@app.route('/page/index')
+def pageindex():
+
+    return render_template('/index/index.html')

@@ -5,6 +5,7 @@ from server import db
 from flask import request
 
 import time
+import re
 
 ns = api.namespace('opeartion', description="用户留言")
 
@@ -40,11 +41,21 @@ class Opeartion(Resource):
             return {'status': 400, 'msg': '失败，你的数据格式不对'}
         kwargs = {}
         try:
-            kwargs['msg'] = kwords['msg']
-            kwargs['mobile'] = kwords['mobile']
-            kwargs['name'] = kwords['name']
+            kwargs['msg'] = kwords['msg'].strip()
+            kwargs['mobile'] = kwords['mobile'].strip()
+            kwargs['name'] = kwords['name'].strip()
+
         except Exception as e:
             return {'status': 400, 'msg': '失败，你的数据格式不对 %s ' % e}
+            
+        if not kwargs['msg']:
+            return {"status": 400, "msg": "没有信息内容, 请填写你的留言内容。"}
+        if not kwargs['name']:
+            return {"status": 400, "msg": "没有姓名！怎么可能，再试一试呗。"}
+        if not re.findall("[0-9]{11}", kwargs['mobile']):
+            return {"status": 400, "msg": "失败， 你的电话号码格式不对， 请输入正确的11位号码。"}
+        
+
         kwargs['create_time'] = int(time.time())
 
         result = db.insert("""
